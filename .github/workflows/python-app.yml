@@ -1,25 +1,27 @@
 name: CICD Pipeline
 
-  on:
-    push:
-      branches: [ "master" ]
-  
-  jobs:
-    build:
-  
-      runs-on: self-hosted
+on:
+  push:
+    branches: [ "master" ]
 
-      steps:
-      - uses: actions/checkout@v2
-      - name: Build Docker image
-        run: docker build . -t my-python-app
+jobs:
+  build:
 
-      - name: Run Tests in Docker container
-        run: docker run --name test-container my-python-app
+    runs-on: self-hosted
 
-      - name: Run Hello World in Docker container
-        run: docker run my-python-app
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Cleanup Docker container
-        if: always()
-        run: docker rm test-container
+    - name: Build Docker image
+      run: docker build . -t my-python-app
+
+    - name: Run Tests in Docker container
+      run: docker run --name test-container my-python-app
+
+    - name: Run Hello World in Docker container
+      run: docker run my-python-app
+
+    - name: Cleanup Docker container
+      if: always()
+      run: docker rm test-container
