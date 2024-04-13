@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
+      
     - name: Build Docker image
       run: sudo docker build . -t my-python-app
 
@@ -21,6 +21,21 @@ jobs:
 
     - name: Run Hello World in Docker container
       run: sudo docker run my-python-app
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1 # Update this with your AWS region
+
+    - name: Set up Kubectl
+      uses: aws-actions/aws-kubectl@v1
+
+    - name: Deploy to EKS
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl set image deployment/my-app-deployment my-app=myrepo/myapp:${{ github.sha }}
 
     - name: Cleanup Docker container
       if: always()
