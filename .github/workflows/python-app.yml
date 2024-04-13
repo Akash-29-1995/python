@@ -1,4 +1,4 @@
-name: Docker Build, Test, and Run
+name: Docker Build, Test, and Run python app
 
 on:
   push:
