@@ -1,4 +1,4 @@
-Name: CICD Pipeline
+name: CICD Pipeline
 
   on:
     push:
@@ -9,18 +9,17 @@ Name: CICD Pipeline
   
       runs-on: self-hosted
 
-    steps:
-    - uses: actions/checkout@v2
+      steps:
+      - uses: actions/checkout@v2
+      - name: Build Docker image
+        run: docker build . -t my-python-app
 
-    - name: Build Docker image
-      run: docker build . -t my-python-app
+      - name: Run Tests in Docker container
+        run: docker run --name test-container my-python-app
 
-    - name: Run Tests in Docker container
-      run: docker run --name test-container my-python-app
+      - name: Run Hello World in Docker container
+        run: docker run my-python-app
 
-    - name: Run Hello World in Docker container
-      run: docker run my-python-app
-
-    - name: Cleanup Docker container
-      if: always()
-      run: docker rm test-container
+      - name: Cleanup Docker container
+        if: always()
+        run: docker rm test-container
