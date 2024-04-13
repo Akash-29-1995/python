@@ -1,12 +1,13 @@
-name: Docker Build, Test, and Run python app
+Name: CICD Pipeline
 
-on:
-  push:
-    branches: [ "master" ]
-
-jobs:
-  docker_workflow:
-    runs-on: self-hosted
+  on:
+    push:
+      branches: [ "master" ]
+  
+  jobs:
+    build:
+  
+      runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v2
