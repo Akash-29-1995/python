@@ -8,4 +8,4 @@ WORKDIR /app
 ADD . /app
 
 # Run test_hello.py when the container launches
-CMD ["python", "test_hello.py"]
+CMD ["python", "test_hello-world.py"]
